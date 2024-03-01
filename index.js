@@ -3,6 +3,10 @@ const loadBtnSecondary = document.getElementById("loadBtnSecondary");
 const imgAll = document.querySelectorAll("img");
 const hideBtn = document.querySelectorAll(".hideBtn");
 const cardAll = document.querySelectorAll(".card")
+const allDescription = document.querySelectorAll(".description")
+const form = document.getElementById("form");
+const input = document.getElementById("input");
+
 console.log(cardAll)
 console.log(hideBtn)
 
@@ -14,7 +18,10 @@ loadBtnSecondary.onclick = function () {
    generateImgs("sharks")
 };
 
-
+form.onsubmit = function (e) {
+    e.preventDefault();
+    generateImgs(input.value);
+}
 
 
 
@@ -32,14 +39,18 @@ function generateImgs(animal){
             throw new Error("ERRORE NEL REPERIMENTO DATI");
           }
         })
-        .then((oggetti) => {
-                  console.log(oggetti);
+        .then((animalObjs) => {
+                  console.log(animalObjs);
 
           imgAll.forEach((img,index) => {
-            img.setAttribute("src",oggetti.photos[index].src.tiny)
-
+            img.setAttribute("src",animalObjs.photos[index].src.tiny)
             
           });
+          allDescription.forEach((id,index) => {
+            id.textContent = "ID: " + animalObjs.photos[index].id;
+            
+          });
+
 
           
         })
@@ -48,7 +59,6 @@ function generateImgs(animal){
     }
 
     
-
 hideBtn.forEach((hideBtn, index) => {
     hideBtn.onclick = () => {
         cardAll[index].remove();
